@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     """
-    Наследованная модель юзера.
+    Переопределенная модель юзера.
     """
     admin = 'admin'
     moderator = 'moderator'
