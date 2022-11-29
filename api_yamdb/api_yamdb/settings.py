@@ -121,6 +121,7 @@ AUTH_USER_MODEL = 'titles.User'
 
 # JWT Token SETTINGS
 SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=2),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
