@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from rest_framework.response import Response
 
 from titles.models import User
 
@@ -29,6 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
             "bio",
             "role"
         )
+
 
 class UserReqistrationSerializer(serializers.ModelSerializer):
     """ Обработчик для регистрации юзеров."""
