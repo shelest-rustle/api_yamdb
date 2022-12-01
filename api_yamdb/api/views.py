@@ -8,7 +8,6 @@ from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework import status
 from rest_framework import viewsets, mixins, filters
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 
 from api.serializers import (
@@ -78,7 +77,7 @@ class TitleViewSet(viewsets.ModelViewSet):
 
     queryset = Title.objects.all()
     serializer_class = TitleSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsAdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ('category__slug', 'genre__slug', 'name', 'year')
 
@@ -89,7 +88,7 @@ class TitleViewSet(viewsets.ModelViewSet):
 class GenreViewSet(CreateListDestroyViewSet):
 
     serializer_class = GenreSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsAdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['genre__name']
 
@@ -103,7 +102,7 @@ class GenreViewSet(CreateListDestroyViewSet):
 class CategoryViewSet(CreateListDestroyViewSet):
 
     serializer_class = CategorySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly, IsAdminOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['category__name']
 

@@ -61,7 +61,7 @@ class Title(models.Model):
 
     name = models.CharField('Название', max_length=256)
     year = models.IntegerField('Год выпуска')
-    description = models.TextField('Описание')
+    description = models.TextField('Описание', blank=True, null=True)
     genre = models.ForeignKey(
         Genre,
         on_delete=models.SET_NULL,
