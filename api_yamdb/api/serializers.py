@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from titles.models import User
+from titles.models import User, Title, Genre, Category
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -46,3 +46,21 @@ class TokenSerializer(serializers.Serializer):
     def save(self):
         username = self.validated_data['username']
         confirmation_code = self.validated_data['confirmation_code']
+
+
+class TitleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Title
+        fields = '__all__'
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
