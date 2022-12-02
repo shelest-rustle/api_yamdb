@@ -24,7 +24,7 @@ class User(AbstractUser):
         null=True,
         unique=True
     )
-    bio = models.TextField('О себе',blank=True)
+    bio = models.TextField('О себе', blank=True)
     role = models.CharField(
         'Роль',
         max_length=30,
@@ -56,7 +56,8 @@ class Category(models.Model):
 
 class Title(models.Model):
     """
-    Произведения, к которым пишут отзывы (определённый фильм, книга или песенка).
+    Произведения, к которым пишут отзывы
+    (определённый фильм, книга или песенка).
     """
 
     name = models.CharField('Название', max_length=256)

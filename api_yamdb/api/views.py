@@ -10,14 +10,14 @@ from rest_framework import viewsets, mixins, filters
 from rest_framework.decorators import api_view
 from django_filters.rest_framework import DjangoFilterBackend
 
-from api.serializers import (
+from .serializers import (
     UserReqistrationSerializer,
     TokenSerializer,
     TitleSerializer,
     GenreSerializer,
     CategorySerializer
 )
-from api.permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly
 from titles.models import User, Title, Genre, Category
 
 
