@@ -103,7 +103,7 @@ class ScoredReview(models.Model):
     pub_date = models.DateTimeField(
         auto_now_add=True
     )
-    help_text='Поставьте оценку от 1 до 10.'
+    help_text = 'Поставьте оценку от 1 до 10.'
 
 
 class Comment(models.Model):
@@ -124,4 +124,4 @@ class Comment(models.Model):
     pub_date = models.DateTimeField(
         auto_now_add=True
     )
-    help_text='Добавьте комментарий.'
+    help_text = 'Добавьте комментарий.'

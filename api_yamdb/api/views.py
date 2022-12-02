@@ -10,9 +10,8 @@ from rest_framework import status
 from rest_framework import viewsets, mixins, filters
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view, permission_classes
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import (
     UserReqistrationSerializer,
@@ -23,8 +22,8 @@ from .serializers import (
     ScoredReviewSerializer,
     CommentSerializer
 )
-from api.permissions import IsAdminOrReadOnly
-from titles.models import User, Title, Genre, Category, ScoredReview, Comment
+from .permissions import IsAdminOrReadOnly
+from titles.models import User, Title, Genre, Category, ScoredReview
 
 
 class CreateListDestroyViewSet(
@@ -33,12 +32,14 @@ class CreateListDestroyViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet
 ):
-
+    """
+    Вьюсет, обрабатывающий GET, POST и DELETE запросы.
+    """
     pass
 
 
 @api_view(['POST'])
-@permission_classes([AllowAny]) 
+@permission_classes([AllowAny])
 def registration_user(request):
     """Регистрирует юзера и отправляет письмо на email."""
     serializer = UserReqistrationSerializer(data=request.data)
@@ -83,6 +84,9 @@ def get_token(request):
 
 @permission_classes([AllowAny])
 class TitleViewSet(viewsets.ModelViewSet):
+    """
+    Вьюсет со всеми типами запросов для произведений.
+    """
 
     queryset = Title.objects.all().annotate(rating=Avg('reviews__score'))
     serializer_class = TitleSerializer
@@ -95,6 +99,9 @@ class TitleViewSet(viewsets.ModelViewSet):
 
 
 class GenreViewSet(CreateListDestroyViewSet):
+    """
+    Вьюсет для жанров, обрабатывающий запросы GET, POST и DELETE.
+    """
 
     serializer_class = GenreSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -109,6 +116,10 @@ class GenreViewSet(CreateListDestroyViewSet):
 
 
 class CategoryViewSet(CreateListDestroyViewSet):
+    """
+    Вьюсет для категорий, обрабатывающий запросы
+    GET, POST и DELETE.
+    """
 
     serializer_class = CategorySerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -124,6 +135,7 @@ class CategoryViewSet(CreateListDestroyViewSet):
 
 class ScoredReviewViewSet(viewsets.ModelViewSet):
     """Возвращает отзывы."""
+
     serializer_class = ScoredReviewSerializer
     permission_classes = [IsAdminOrReadOnly, IsAuthenticatedOrReadOnly]
 
@@ -143,7 +155,9 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly, IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        review = get_object_or_404(ScoredReview, pk=self.kwargs.get("review_id"))
+        review = get_object_or_404(
+            ScoredReview, pk=self.kwargs.get("review_id")
+        )
         return review.comments.all()
 
     def perform_create(self, serializer):

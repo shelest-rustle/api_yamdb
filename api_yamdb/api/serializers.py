@@ -34,7 +34,7 @@ class UserReqistrationSerializer(serializers.ModelSerializer):
     """Обработчик для регистрации юзеров."""
 
     class Meta:
-        model = User   
+        model = User
         fields = ("username", "email")
 
 
@@ -50,7 +50,7 @@ class TokenSerializer(serializers.Serializer):
 
 class TitleSerializer(serializers.ModelSerializer):
     rating = serializers.IntegerField()
-    
+
     class Meta:
         model = Title
         fields = '__all__'
@@ -73,7 +73,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ScoredReviewSerializer(serializers.ModelSerializer):
     """Обработчик отзыва и рейтинга."""
     author = serializers.StringRelatedField(read_only=True)
-    
+
     class Meta:
         model = ScoredReview
         fields = ("id", "text", "author", "score", "pub_date")
