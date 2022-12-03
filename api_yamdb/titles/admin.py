@@ -17,22 +17,6 @@ class TitleAdmin(admin.ModelAdmin):
 
 admin.site.register(Title, TitleAdmin)
 
+admin.site.register(Genre)
 
-class GenreAdmin(admin.ModelAdmin):
-    """
-    Административная модель жанра.
-    """
-    prepopulated_fields = {'slug': ('name',)}
-
-
-admin.site.register(Genre, GenreAdmin)
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    """
-    Административная модель категории.
-    """
-    prepopulated_fields = {'slug': ('name',)}
-
-
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Category)
