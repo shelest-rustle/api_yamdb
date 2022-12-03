@@ -1,6 +1,7 @@
 from datetime import timedelta
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -116,7 +117,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 
-#User
+# Usermodel
 AUTH_USER_MODEL = 'titles.User'
 
 # JWT Token SETTINGS
@@ -125,7 +126,7 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-#EMAIL SETTINGS
+# EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465

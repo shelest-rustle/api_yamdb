@@ -15,7 +15,8 @@ class User(AbstractUser):
         (user, 'User'),
     ]
     email = models.EmailField(
-        'Почта',
+        'email',
+        max_length=254,
         unique=True,
     )
     username = models.CharField(
@@ -24,7 +25,7 @@ class User(AbstractUser):
         null=True,
         unique=True
     )
-    bio = models.TextField('О себе',blank=True)
+    bio = models.TextField('О себе', blank=True)
     role = models.CharField(
         'Роль',
         max_length=30,
@@ -34,3 +35,16 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    @property
+    def is_admin(self):
+        """Декоратор для проверки, является ли админом юзер."""
+        if self.is_superuser:
+            self.role = self.admin
+            self.save()
+        return self.role == self.admin
+
+    @property
+    def is_moderator(self):
+        """Декоратор для проверки, является ли модератором юзер."""
+        return self.role == self.moderator
