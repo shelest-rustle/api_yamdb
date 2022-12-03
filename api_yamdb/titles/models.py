@@ -16,7 +16,8 @@ class User(AbstractUser):
         (user, 'User'),
     ]
     email = models.EmailField(
-        'Почта',
+        'email',
+        max_length=254,
         unique=True,
     )
     username = models.CharField(
@@ -35,6 +36,16 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    @property
+    def is_admin(self):
+        """Декоратор для проверки, является ли админом юзер."""
+        return self.role == self.admin
+
+    @property
+    def is_moderator(self):
+        """Декоратор для проверки, является ли модератором юзер."""
+        return self.role == self.moderator
 
 
 class Genre(models.Model):

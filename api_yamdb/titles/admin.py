@@ -1,4 +1,5 @@
 from django.contrib import admin
+from titles.models import User
 
 from .models import User, Title, Genre, Category
 
