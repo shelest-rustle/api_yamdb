@@ -40,9 +40,6 @@ class User(AbstractUser):
     @property
     def is_admin(self):
         """Декоратор для проверки, является ли админом юзер."""
-        if self.is_superuser:
-            self.role = self.admin
-            self.save()
         return self.role == self.admin
 
     @property

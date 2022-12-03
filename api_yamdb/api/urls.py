@@ -33,7 +33,6 @@ router_v1.register(
 router_v1.register(r'users', UserViewset, basename='user')
 
 
-
 urlpatterns = [
     path('v1/auth/signup/', registration_user, name='registration_user'),
     path('v1/auth/token/', get_token, name='get_token'),
