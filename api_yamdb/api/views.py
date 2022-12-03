@@ -157,7 +157,6 @@ class UserViewset(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-@permission_classes([AllowAny])
 class TitleViewSet(viewsets.ModelViewSet):
     """
     Вьюсет со всеми типами запросов для произведений.
@@ -190,6 +189,7 @@ class GenreViewSet(CreateListDestroyViewSet):
         serializer.save(user=self.request.user)
 
 
+@permission_classes([AllowAny])
 class CategoryViewSet(CreateListDestroyViewSet):
     """
     Вьюсет для категорий, обрабатывающий запросы

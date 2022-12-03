@@ -12,10 +12,11 @@ class UserSerializer(serializers.ModelSerializer):
         ],
         required=True,
     )
-    email = serializers.EmailField(
+    email = email = serializers.EmailField(
         validators=[
             UniqueValidator(queryset=User.objects.all())
-        ]
+        ],
+        required=True,
     )
 
     class Meta:
@@ -50,6 +51,18 @@ class UserReqistrationSerializer(serializers.Serializer):
     """ Обработчик для регистрации юзеров."""
     username = serializers.CharField()
     email = serializers.EmailField()
+    username = serializers.CharField(
+        validators=[
+            UniqueValidator(queryset=User.objects.all())
+        ],
+        required=True,
+    )
+    email = email = serializers.EmailField(
+        validators=[
+            UniqueValidator(queryset=User.objects.all())
+        ],
+        required=True,
+    )
 
     def validate_username(self, value):
         if value == 'me':
