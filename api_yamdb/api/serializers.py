@@ -49,8 +49,6 @@ class UserEditSeriializer(serializers.ModelSerializer):
 
 class UserReqistrationSerializer(serializers.Serializer):
     """ Обработчик для регистрации юзеров."""
-    username = serializers.CharField()
-    email = serializers.EmailField()
     username = serializers.CharField(
         validators=[
             UniqueValidator(queryset=User.objects.all())
