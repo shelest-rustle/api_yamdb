@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'djoser',
     'titles',
     'api',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 
 # Usermodel
-AUTH_USER_MODEL = 'titles.User'
+AUTH_USER_MODEL = 'users.User'
 
 # JWT Token SETTINGS
 SIMPLE_JWT = {

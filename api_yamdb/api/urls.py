@@ -3,19 +3,14 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .views import (
-    registration_user,
-    get_token,
     TitleViewSet,
     CategoryViewSet,
     GenreViewSet,
     ScoredReviewViewSet,
     CommentViewSet
 )
-
+from users.views import registration_user, get_token, UserViewset
 from rest_framework import routers
-
-from api.views import registration_user, get_token, UserViewset
-
 
 router_v1 = routers.DefaultRouter()
 
