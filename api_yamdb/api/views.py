@@ -16,7 +16,11 @@ from .serializers import (
     CommentSerializer
 )
 
-from .permissions import IsAdminOrReadOnly, IsModeratorOrReadOnly, IsAdminForTitlesOrReadOnly
+from .permissions import (
+    IsAdminOrReadOnly,
+    IsModeratorOrReadOnly,
+    IsAdminForTitlesOrReadOnly
+)
 from titles.models import Title, Genre, Category, ScoredReview
 
 
@@ -65,7 +69,7 @@ class GenreViewSet(CreateListDestroyViewSet):
         instance = get_object_or_404(Genre, slug=self.kwargs['pk'])
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
+
 
 class CategoryViewSet(CreateListDestroyViewSet):
     """
@@ -89,7 +93,7 @@ class ScoredReviewViewSet(viewsets.ModelViewSet):
     """Возвращает отзывы."""
 
     serializer_class = ScoredReviewSerializer
-    permission_classes = [IsAdminAuthorModeratorOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly, IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
@@ -117,4 +121,3 @@ class CommentViewSet(viewsets.ModelViewSet):
         review_id = self.kwargs.get('review_id')
         review = get_object_or_404(ScoredReview, id=review_id, title=title_id)
         serializer.save(author=self.request.user, review=review)
-
