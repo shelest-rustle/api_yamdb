@@ -59,9 +59,6 @@ class GenreViewSet(CreateListDestroyViewSet):
     def get_queryset(self):
         return Genre.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 
 class CategoryViewSet(CreateListDestroyViewSet):
     """
@@ -113,3 +110,4 @@ class CommentViewSet(viewsets.ModelViewSet):
         review_id = self.kwargs.get('review_id')
         review = get_object_or_404(ScoredReview, id=review_id, title=title_id)
         serializer.save(author=self.request.user, review=review)
+
