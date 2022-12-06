@@ -2,10 +2,9 @@ from django.db.models.aggregates import Avg
 
 from rest_framework.generics import get_object_or_404
 from rest_framework import viewsets, mixins, filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
-from rest_framework.decorators import permission_classes
-from rest_framework import viewsets
-from rest_framework.decorators import  permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import (
@@ -15,8 +14,9 @@ from .serializers import (
     ScoredReviewSerializer,
     CommentSerializer
 )
-from .permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly, IsModeratorOrReadOnly, IsAdminForTitlesOrReadOnly
 from titles.models import Title, Genre, Category, ScoredReview
+
 
 class CreateListDestroyViewSet(
     mixins.CreateModelMixin,
@@ -30,7 +30,6 @@ class CreateListDestroyViewSet(
     pass
 
 
-@permission_classes([AllowAny])
 class TitleViewSet(viewsets.ModelViewSet):
     """
     Вьюсет со всеми типами запросов для произведений.
@@ -38,12 +37,12 @@ class TitleViewSet(viewsets.ModelViewSet):
 
     queryset = Title.objects.all().annotate(rating=Avg('reviews__score'))
     serializer_class = TitleSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdminForTitlesOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ('category__slug', 'genre__slug', 'name', 'year')
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save()
 
 
 class GenreViewSet(CreateListDestroyViewSet):
@@ -52,13 +51,18 @@ class GenreViewSet(CreateListDestroyViewSet):
     """
 
     serializer_class = GenreSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdminForTitlesOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['genre__name']
 
     def get_queryset(self):
         return Genre.objects.all()
 
+    def destroy(self, request, *args, **kwargs):
+        instance = get_object_or_404(Genre, slug=self.kwargs['pk'])
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+        
 
 class CategoryViewSet(CreateListDestroyViewSet):
     """
@@ -67,7 +71,7 @@ class CategoryViewSet(CreateListDestroyViewSet):
     """
 
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAdminForTitlesOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['category__name']
 
@@ -75,7 +79,7 @@ class CategoryViewSet(CreateListDestroyViewSet):
         return Category.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save()
 
 
 class ScoredReviewViewSet(viewsets.ModelViewSet):
@@ -97,7 +101,7 @@ class ScoredReviewViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     """Возвращает комментарии."""
     serializer_class = CommentSerializer
-    permission_classes = [IsAdminOrReadOnly, IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly, IsModeratorOrReadOnly]
 
     def get_queryset(self):
         review = get_object_or_404(

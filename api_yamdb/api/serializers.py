@@ -4,7 +4,7 @@ from titles.models import Title, Genre, Category, ScoredReview, Comment
 
 
 class TitleSerializer(serializers.ModelSerializer):
-    rating = serializers.IntegerField()
+    rating = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Title
