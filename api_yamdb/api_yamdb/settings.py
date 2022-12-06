@@ -27,9 +27,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'djoser',
+    'users',
     'titles',
     'api',
-    'users',
 ]
 
 MIDDLEWARE = [
@@ -101,7 +101,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 5,
 
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly', 
+        'rest_framework.permissions.AllowAny'
     ],
 }
 

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from titles.models import Title, Genre, Category, ScoredReview, Comment
 
@@ -8,18 +9,39 @@ class TitleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Title
-        fields = '__all__'
+        fields = (
+            'id',
+            'name',
+            'year',
+            'description',
+            'genre',
+            'category',
+            'rating'
+        )
 
 
 class GenreSerializer(serializers.ModelSerializer):
     """"""
     class Meta:
         model = Genre
-        fields = '__all__'
+        fields = ('name', 'slug',)
 
 
 class CategorySerializer(serializers.ModelSerializer):
     """"""
+    name = serializers.CharField(
+        validators=[
+            UniqueValidator(queryset=Category.objects.all())
+        ],
+        required=True,
+    )
+    slug = serializers.SlugField(
+        validators=[
+            UniqueValidator(queryset=Category.objects.all())
+        ],
+        required=True,
+    )
+
     class Meta:
         model = Category
         fields = '__all__'
@@ -35,7 +57,7 @@ class ScoredReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         not_first = ScoredReview.objects.filter(
-            author=self.context['request'].user,
+            author=data.user,
             title=self.context['view'].kwargs.get('title_id')).exists()
         if not_first and self.context['request'].method == 'POST':
             raise serializers.ValidationError(
@@ -45,10 +67,7 @@ class ScoredReviewSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     """Обработчик комментариев."""
-    author = serializers.SlugRelatedField(
-        slug_field='username',
-        read_only=True
-    )
+    author = serializers.StringRelatedField(read_only=True)
     review = serializers.SlugRelatedField(
         slug_field='text',
         read_only=True
