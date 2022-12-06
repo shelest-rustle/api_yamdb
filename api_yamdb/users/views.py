@@ -30,7 +30,7 @@ def registration_user(request):
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     serializer.save()
-    User.objects.get_or_create(
+    u = User.objects.get_or_create(
         username=serializer.validated_data['username'],
         email=serializer.validated_data['email']
     )
@@ -135,3 +135,6 @@ class UserViewset(viewsets.ModelViewSet):
         if getattr(instance, '_prefetched_objects_cache', None):
             instance._prefetched_objects_cache = {}
         return Response(serializer.data)
+
+    def perform_create(self, serializer):
+        serializer.save(created_by_admin=True)
