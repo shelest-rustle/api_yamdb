@@ -3,11 +3,11 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.validators import UniqueValidator
 
-from reviews.models import Category, Comment, Genre, ScoredReview, Title
+from reviews.models import Category, Comment, Genre, Review, Title
 from users.models import User
 
 
-class ScoredReviewSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     title = serializers.SlugRelatedField(
         slug_field='name',
         read_only=True,
@@ -25,7 +25,7 @@ class ScoredReviewSerializer(serializers.ModelSerializer):
         score = data['score']
 
         if request.method == 'POST':
-            if ScoredReview.objects.filter(
+            if Review.objects.filter(
                     title=title, author=author).exists():
                 raise ValidationError('Вы не можете добавить более'
                                       'одного отзыва на произведение')
@@ -34,7 +34,7 @@ class ScoredReviewSerializer(serializers.ModelSerializer):
         return data
 
     class Meta:
-        model = ScoredReview
+        model = Review
         fields = '__all__'
 
 

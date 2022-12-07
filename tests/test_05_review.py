@@ -52,7 +52,7 @@ class Test05ReviewAPI:
             f'статус {code}'
         )
         try:
-            from reviews.models import ScoredReview, Title
+            from reviews.models import Review, Title
         except Exception as e:
             assert False, (
                 'Не удалось импортировать модели из приложения reviews. '
@@ -62,7 +62,7 @@ class Test05ReviewAPI:
         title = Title.objects.get(pk=titles[0]["id"])
         review = None
         try:
-            review = ScoredReview.objects.create(
+            review = Review.objects.create(
                 text='Текст второго отзыва',
                 score='5',
                 author=admin,
