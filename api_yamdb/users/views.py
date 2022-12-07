@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.permissions import  AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import api_view, action, permission_classes
@@ -30,7 +30,7 @@ def registration_user(request):
     if not serializer.is_valid():
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     serializer.save()
-    u = User.objects.get_or_create(
+    User.objects.get_or_create(
         username=serializer.validated_data['username'],
         email=serializer.validated_data['email']
     )

@@ -34,7 +34,6 @@ class UserSerializer(serializers.ModelSerializer):
 class UserEditSeriializer(serializers.ModelSerializer):
     """Обаботчик для изменения данных юзером."""
 
-
     class Meta:
         model = User
         fields = (
@@ -74,16 +73,8 @@ class UserReqistrationSerializer(serializers.Serializer):
             )
         return value
 
-    def save(self):
-        username = self.validated_data['username']
-        email = self.validated_data['email']
-
 
 class TokenSerializer(serializers.Serializer):
     """Обработчик токена."""
     username = serializers.CharField(max_length=150)
     confirmation_code = serializers.CharField()
-
-    def save(self):
-        username = self.validated_data['username']
-        confirmation_code = self.validated_data['confirmation_code']
