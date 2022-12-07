@@ -1,9 +1,5 @@
 import os
 from datetime import timedelta
-from dotenv import load_dotenv
-
-
-load_dotenv()
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -129,13 +125,13 @@ AUTH_USER_MODEL = 'users.User'
 
 # EMAIL SETTINGS
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
-EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFOULT_FROM_EMAIL = os.getenv('DEFOULT_FROM_EMAIL')
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'yamdb.auth@yandex.ru'
+EMAIL_HOST_PASSWORD = 'project5553'
+DEFOULT_FROM_EMAIL = 'yamdb.auth@yandex.ru'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
