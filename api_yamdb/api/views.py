@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from titles.models import Category, Genre, ScoredReview, Title
+from reviews.models import Category, Genre, ScoredReview, Title
 from users.models import User
 from .filters import TitlesFilter
 from .permissions import (IsAdmin, IsAdminOrReadOnly,

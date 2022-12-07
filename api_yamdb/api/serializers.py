@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.validators import UniqueValidator
 
-from titles.models import Category, Comment, Genre, ScoredReview, Title
+from reviews.models import Category, Comment, Genre, ScoredReview, Title
 from users.models import User
 
 

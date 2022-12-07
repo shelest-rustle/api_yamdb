@@ -52,7 +52,7 @@ class Test05ReviewAPI:
             f'статус {code}'
         )
         try:
-            from titles.models import ScoredReview, Title
+            from reviews.models import ScoredReview, Title
         except Exception as e:
             assert False, (
                 'Не удалось импортировать модели из приложения reviews. '
