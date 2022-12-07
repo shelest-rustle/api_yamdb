@@ -44,6 +44,6 @@ class User(AbstractUser):
     def is_moderator(self):
         """Декоратор для проверки, является ли модератором юзер."""
         return self.role == self.moderator
-    
+
     class Meta:
         ordering = ['username']
