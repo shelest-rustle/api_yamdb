@@ -1,23 +1,13 @@
 from django.contrib import admin
-from titles.models import User
 
-from .models import User, Title, Genre, Category
+from .models import Title, Genre, Category, ScoredReview, Comment
+
+from users.models import User
+
 
 admin.site.register(User)
-
-
-class TitleAdmin(admin.ModelAdmin):
-    """
-    Административная модель произведения.
-    """
-    list_display = ('name', 'year', 'description', 'genre', 'category')
-    search_fields = ('name',)
-    list_filter = ('year',)
-    list_editable = ('category',)
-
-
-admin.site.register(Title, TitleAdmin)
-
+admin.site.register(Title)
 admin.site.register(Genre)
-
 admin.site.register(Category)
+admin.site.register(ScoredReview)
+admin.site.register(Comment)
