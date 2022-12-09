@@ -150,3 +150,9 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+# Размеры полей
+
+BIG_INIT_LENGTH = 256
+
+SMALL_INIT_LENGTH = 50

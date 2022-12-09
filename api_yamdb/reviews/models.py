@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from users.models import User
+from api_yamdb.settings import BIG_INIT_LENGTH, SMALL_INIT_LENGTH
 
 
 def validate_year(value):
@@ -15,11 +16,11 @@ def validate_year(value):
 class Category(models.Model):
     name = models.CharField(
         verbose_name='Название',
-        max_length=256
+        max_length=BIG_INIT_LENGTH
     )
     slug = models.SlugField(
         verbose_name='Идентификатор',
-        max_length=50,
+        max_length=SMALL_INIT_LENGTH,
         unique=True
     )
 
@@ -33,11 +34,11 @@ class Category(models.Model):
 class Genre(models.Model):
     name = models.CharField(
         verbose_name='Название',
-        max_length=256
+        max_length=BIG_INIT_LENGTH
     )
     slug = models.SlugField(
         'Идентификатор',
-        max_length=50,
+        max_length=SMALL_INIT_LENGTH,
         unique=True
     )
 

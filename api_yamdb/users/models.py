@@ -6,13 +6,13 @@ class User(AbstractUser):
     """
     Переопределенная модель юзера.
     """
-    admin = 'admin'
-    moderator = 'moderator'
-    user = 'user'
+    ADMIN = 'admin'
+    MODERATOR = 'moderator'
+    USER = 'user'
     ROLES = [
-        (admin, 'Administrator'),
-        (moderator, 'Moderator'),
-        (user, 'User'),
+        (ADMIN, 'Administrator'),
+        (MODERATOR, 'Moderator'),
+        (USER, 'User'),
     ]
     email = models.EmailField(
         'email',
@@ -29,7 +29,7 @@ class User(AbstractUser):
         'Роль',
         max_length=30,
         choices=ROLES,
-        default=user
+        default=USER
     )
 
     USERNAME_FIELD = 'email'
@@ -38,12 +38,12 @@ class User(AbstractUser):
     @property
     def is_admin(self):
         """Декоратор для проверки, является ли админом юзер."""
-        return self.role == self.admin
+        return self.role == self.ADMIN
 
     @property
     def is_moderator(self):
         """Декоратор для проверки, является ли модератором юзер."""
-        return self.role == self.moderator
+        return self.role == self.MODERATOR
 
     class Meta:
         ordering = ['username']

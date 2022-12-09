@@ -32,6 +32,17 @@ class ListCreateDestroyViewSet(
     pass
 
 
+def send_confirmation_code(username, code, email):
+    """Отправляет код подтверждения на указанную почту."""
+    send_mail(
+        'Код активации',
+        f'Password для {username}: {code}',
+        'host@gmail.com',
+        [email],
+        fail_silently=False
+    )
+
+
 class CategoryViewSet(ListCreateDestroyViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -56,22 +67,13 @@ class GenreViewSet(ListCreateDestroyViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
-
-    @action(detail=False,
-            methods=['delete'],
-            url_path=r'(?P<slug>[-\w]+)',
-            permission_classes=(IsAdmin,)
-            )
-    def slug(self, request, slug):
-        genre = get_object_or_404(Genre, slug=slug)
-        genre.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    lookup_field = 'slug'
 
 
 class TitleViewSet(viewsets.ModelViewSet):
-    queryset = Title.objects.all().annotate(
-        score=Avg("reviews__score")
-    ).order_by("name")
+    queryset = Title.objects.annotate(
+        rating=Avg('reviews__score')
+    ).all().order_by('name')
     serializer_class = TitleSerializer
     permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
@@ -122,12 +124,10 @@ class RegistrationAPIView(APIView):
                 User, username=request.data.get('username')
             )
             confirmation_code = default_token_generator.make_token(user)
-            send_mail(
-                'Код активации',
-                f'Password для {user.username}: {confirmation_code}',
-                'host@gmail.com',
-                [user.email],
-                fail_silently=False
+            send_confirmation_code(
+                user.username,
+                confirmation_code,
+                user.email
             )
             serializer.is_valid(raise_exception=True)
             return Response(status)
@@ -138,12 +138,10 @@ class RegistrationAPIView(APIView):
             username = serializer.validated_data.get("username")
             user = get_object_or_404(User, username=username)
             confirmation_code = default_token_generator.make_token(user)
-            send_mail(
-                'Код активации',
-                f'Password для {username}: {confirmation_code}',
-                'host@gmail.com',
-                [email],
-                fail_silently=False
+            send_confirmation_code(
+                username,
+                confirmation_code,
+                email
             )
             return Response(serializer.data, status=status.HTTP_200_OK)
 
