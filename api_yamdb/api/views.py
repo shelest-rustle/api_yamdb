@@ -49,12 +49,8 @@ class CategoryViewSet(ListCreateDestroyViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ("name",)
+    lookup_field = 'slug'
 
-    @action(detail=False,
-            methods=['delete'],
-            url_path=r'(?P<slug>[-\w]+)',
-            permission_classes=(IsAdmin,)
-            )
     def slug(self, request, slug):
         category = get_object_or_404(Category, slug=slug)
         category.delete()
