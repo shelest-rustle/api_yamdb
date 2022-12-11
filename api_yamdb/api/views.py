@@ -51,11 +51,6 @@ class CategoryViewSet(ListCreateDestroyViewSet):
     search_fields = ("name",)
     lookup_field = 'slug'
 
-    def slug(self, request, slug):
-        category = get_object_or_404(Category, slug=slug)
-        category.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 class GenreViewSet(ListCreateDestroyViewSet):
     queryset = Genre.objects.all()
